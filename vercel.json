@@ -2,17 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.py",
+      "src": "app_simple.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.py"
+      "dest": "app_simple.py"
     }
   ],
-  "env": {
-    "PYTHONPATH": "/var/task"
+  "functions": {
+    "app_simple.py": {
+      "maxDuration": 30
+    }
   }
 }

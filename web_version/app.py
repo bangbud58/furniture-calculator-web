@@ -30,15 +30,18 @@ except ImportError:
         }
 
 app = Flask(__name__)
-app.secret_key = 'furniture_price_generator_2025'  # Change this in production
+app.secret_key = os.environ.get('SECRET_KEY', 'furniture_price_generator_2025_prod')
 
-# Configuration
+# Configuration for serverless
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-UPLOAD_FOLDER = 'uploads'
+
+# Use /tmp for temporary files in serverless environment
+UPLOAD_FOLDER = '/tmp' if os.environ.get('VERCEL') else 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Ensure upload folder exists (only if not in serverless)
+if not os.environ.get('VERCEL'):
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 class FurniturePriceCalculator:
     """Core calculation logic"""
@@ -754,5 +757,6 @@ def get_finishing_options(category):
 # For Vercel deployment
 app.debug = False
 
+# Serverless compatibility
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

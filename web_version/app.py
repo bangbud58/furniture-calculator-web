@@ -751,5 +751,8 @@ def get_finishing_options(category):
     
     return jsonify(finishing_options.get(category, ['Tacosheet', 'HPL Low', 'HPL Mid', 'HPL High', 'Duco', 'Kombinasi']))
 
+# For Vercel deployment
+app.debug = False
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)

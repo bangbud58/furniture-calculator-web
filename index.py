@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 # Import the Flask app
-from web_version.app import app
+from app_main import app
 
 # Vercel expects the app to be exposed as 'app'
 # No need for if __name__ == "__main__" in serverless

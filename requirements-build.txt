@@ -1,0 +1,2 @@
+# Requirements untuk build executable
+pyinstaller>=6.0.0

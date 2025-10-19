@@ -1,0 +1,93 @@
+# ✅ FILE CHECKLIST UNTUK GITHUB
+
+## 📦 File yang WAJIB Diupload ke GitHub:
+
+### ✅ File Utama (WAJIB - 3 file):
+```
+✅ streamlit_app.py              (719 baris - Aplikasi utama)
+✅ material_descriptions.py       (88 baris - Database material)
+✅ requirements-streamlit.txt     (3 baris - Dependencies)
+```
+
+### ✅ File Dokumentasi (Recommended - 3 file):
+```
+✅ README.md                      (Halaman utama GitHub)
+✅ README_STREAMLIT.md            (Panduan lengkap)
+✅ QUICKSTART_STREAMLIT.md        (Quick start)
+```
+
+### ✅ File Panduan Upload (Optional):
+```
+✅ UPLOAD_GITHUB_MANUAL.md        (Panduan upload manual)
+```
+
+---
+
+## ❌ File yang TIDAK Perlu Diupload:
+
+```
+❌ build/                         (Folder build PyInstaller)
+❌ dist/                          (Folder .exe hasil)
+❌ __pycache__/                   (Python cache)
+❌ build_windows.py               (Script build .exe - Windows only)
+❌ furniture_price_generator.py   (PyQt5 version - Windows only)
+❌ info_combo.py                  (PyQt5 widget - Windows only)
+❌ FurniturePriceGenerator.spec   (PyInstaller spec)
+❌ Furniture_Price_Generator.xlsx (File test Excel)
+❌ INSTALLATION_GUIDE.md          (Guide Windows .exe)
+❌ requirements-build.txt         (Requirements build .exe)
+❌ upload_to_github.py            (Script upload - butuh Git)
+```
+
+---
+
+## 📝 Cara Upload (Tanpa Git):
+
+### 1. Buka GitHub.com
+   - Login
+   - Buat repository baru: `furniture-price-generator`
+   - Public
+   - Klik "Create repository"
+
+### 2. Upload Files
+   - Klik "uploading an existing file"
+   - **Drag & drop 6 file ini**:
+     1. `streamlit_app.py`
+     2. `material_descriptions.py`
+     3. `requirements-streamlit.txt`
+     4. `README.md`
+     5. `README_STREAMLIT.md`
+     6. `QUICKSTART_STREAMLIT.md`
+   
+   - Commit message: `Initial commit: Furniture Price Generator`
+   - Klik "Commit changes"
+
+### 3. Deploy ke Streamlit Cloud
+   - Buka: https://streamlit.io/cloud
+   - Sign in with GitHub
+   - New app → Pilih repository
+   - Main file: `streamlit_app.py`
+   - Deploy!
+
+---
+
+## 🎯 Lokasi File di Folder Anda:
+
+Semua file ada di:
+```
+D:\PROGRAM PROJECT\FURNITURE PRICE GENERATOR\
+```
+
+Tinggal pilih 6 file di atas, lalu upload ke GitHub!
+
+---
+
+## ✨ Hasil Akhir:
+
+Setelah deploy, Anda dapat:
+- 🌐 URL aplikasi online
+- 📱 Bisa diakses dari HP/tablet
+- 🔄 Auto update saat edit code
+- 💯 Gratis selamanya!
+
+**Good luck! 🚀**

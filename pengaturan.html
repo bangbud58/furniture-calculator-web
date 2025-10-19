@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Harga - Furniture Price Generator</title>
+    <link rel="stylesheet" href="pengaturan.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pengaturan Harga</h1>
+            <button class="btn-back" onclick="window.location.href='index.html'">← Kembali</button>
+        </header>
+
+        <div class="settings-container">
+            <section class="setting-section">
+                <h2>Harga Bahan Baku</h2>
+                <div class="form-group">
+                    <label for="hargaKayu">Harga Kayu (per m³)</label>
+                    <input type="number" id="hargaKayu" placeholder="Rp">
+                </div>
+                <div class="form-group">
+                    <label for="hargaMDF">Harga MDF (per lembar)</label>
+                    <input type="number" id="hargaMDF" placeholder="Rp">
+                </div>
+                <div class="form-group">
+                    <label for="hargaPlywood">Harga Plywood (per lembar)</label>
+                    <input type="number" id="hargaPlywood" placeholder="Rp">
+                </div>
+            </section>
+
+            <section class="setting-section">
+                <h2>Biaya Produksi</h2>
+                <div class="form-group">
+                    <label for="biayaTenagaKerja">Biaya Tenaga Kerja (%)</label>
+                    <input type="number" id="biayaTenagaKerja" placeholder="%">
+                </div>
+                <div class="form-group">
+                    <label for="biayaOverhead">Biaya Overhead (%)</label>
+                    <input type="number" id="biayaOverhead" placeholder="%">
+                </div>
+            </section>
+
+            <section class="setting-section">
+                <h2>Margin Keuntungan</h2>
+                <div class="form-group">
+                    <label for="marginKeuntungan">Margin Keuntungan (%)</label>
+                    <input type="number" id="marginKeuntungan" placeholder="%">
+                </div>
+            </section>
+
+            <section class="setting-section">
+                <h2>Harga Finishing</h2>
+                <div class="form-group">
+                    <label for="hargaCat">Harga Cat (per m²)</label>
+                    <input type="number" id="hargaCat" placeholder="Rp">
+                </div>
+                <div class="form-group">
+                    <label for="hargaMelamine">Harga Melamine (per m²)</label>
+                    <input type="number" id="hargaMelamine" placeholder="Rp">
+                </div>
+                <div class="form-group">
+                    <label for="hargaDuco">Harga Duco (per m²)</label>
+                    <input type="number" id="hargaDuco" placeholder="Rp">
+                </div>
+            </section>
+
+            <div class="button-group">
+                <button class="btn-save" onclick="simpanPengaturan()">Simpan Pengaturan</button>
+                <button class="btn-reset" onclick="resetPengaturan()">Reset ke Default</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pengaturan.js"></script>
+</body>
+</html>

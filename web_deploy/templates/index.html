@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Furniture Calculator">
+    <title>Furniture Price Calculator - PT. Enigma Prisma Delapan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-compact">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-compact">
+                </div>
+                <div class="col text-center">
+                    <h3 class="mb-0 text-dark">Furniture Price Generator</h3>
+                </div>
+                <div class="col-auto text-end">
+                    <div class="company-info-compact">
+                        <strong class="text-danger">PT. ENIGMA PRISMA DELAPAN</strong><br>
+                        <small>Jl. Raya H. Abdullah No.56, Pakulonan Barat<br>
+                        Tangerang - 0821 1213 4258</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kategori Selector -->
+            <div class="row mt-2">
+                <div class="col-12 d-flex align-items-center justify-content-center gap-3">
+                    <label class="mb-0">Kategori:</label>
+                    <select class="form-select form-select-sm" id="kategoriSelect" style="width: 200px;" onchange="showCategory()">
+                        <option value="kitchen-set">Kitchen Set</option>
+                        <option value="wardrobe">Wardrobe</option>
+                        <option value="bed">Bed</option>
+                        <option value="backdrop">Backdrop Panel</option>
+                        <option value="credenza">Credenza</option>
+                        <option value="multi-cabinet">Multi Cabinet</option>
+                        <option value="custom">Custom Furniture</option>
+                    </select>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid">
+        <!-- Mobile-first responsive layout -->
+        <div class="row g-2">
+            <!-- Left Panel - Input Forms -->
+            <div class="col-12 col-lg-6 order-1 order-lg-1">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        
+                        <!-- KITCHEN SET FORM -->
+                        <div id="kitchen-set" class="category-form">
+                            <h5><i class="fas fa-utensils"></i> Kitchen Set</h5>
+                            
+                            <!-- Kabinet Bawah -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Kabinet Bawah</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Panjang (cm)</label>
+                                            <input type="number" class="form-control" id="kb_panjang" min="100" step="0.1" placeholder="300">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Tinggi (cm)</label>
+                                            <input type="number" class="form-control" id="kb_tinggi" min="100" step="0.1" placeholder="85">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Tebal (cm)</label>
+                                            <input type="number" class="form-control" id="kb_tebal" min="30" step="0.1" placeholder="60">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Finishing</label>
+                                            <select class="form-select" id="kb_finishing">
+                                                <option value="Tacosheet">Tacosheet</option>
+                                                <option value="HPL Low">HPL Low</option>
+                                                <option value="HPL Mid">HPL Mid</option>
+                                                <option value="HPL High">HPL High</option>
+                                                <option value="Duco">Duco</option>
+                                                <option value="Kombinasi">Kombinasi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="addKitchenItem('kb')">
+                                        <i class="fas fa-plus"></i> Tambah KB
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Kabinet Atas -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Kabinet Atas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Panjang (cm)</label>
+                                            <input type="number" class="form-control" id="ka_panjang" min="100" step="0.1" placeholder="250">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Tinggi (cm)</label>
+                                            <input type="number" class="form-control" id="ka_tinggi" min="100" step="0.1" placeholder="70">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Tebal (cm)</label>
+                                            <input type="number" class="form-control" id="ka_tebal" min="30" step="0.1" placeholder="35">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Finishing</label>
+                                            <select class="form-select" id="ka_finishing">
+                                                <option value="Tacosheet">Tacosheet</option>
+                                                <option value="HPL Low">HPL Low</option>
+                                                <option value="HPL Mid">HPL Mid</option>
+                                                <option value="HPL High">HPL High</option>
+                                                <option value="Duco">Duco</option>
+                                                <option value="Kombinasi">Kombinasi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="addKitchenItem('ka')">
+                                        <i class="fas fa-plus"></i> Tambah KA
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Top Table -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Top Table</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Panjang (cm)</label>
+                                            <input type="number" class="form-control" id="tt_panjang" min="50" step="0.1" placeholder="300">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Lebar (cm)</label>
+                                            <input type="number" class="form-control" id="tt_lebar" min="30" step="0.1" placeholder="60">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Material</label>
+                                            <select class="form-select" id="tt_material">
+                                                <option value="Solid Surface">Solid Surface</option>
+                                                <option value="Granit Alam">Granit Alam</option>
+                                                <option value="Marmer">Marmer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="addKitchenItem('tt')">
+                                        <i class="fas fa-plus"></i> Tambah Top Table
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Backsplash -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Backsplash</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Panjang (cm)</label>
+                                            <input type="number" class="form-control" id="bs_panjang" min="50" step="0.1" placeholder="300">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Tinggi (cm)</label>
+                                            <input type="number" class="form-control" id="bs_tinggi" min="30" step="0.1" placeholder="60">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Material</label>
+                                            <select class="form-select" id="bs_material">
+                                                <option value="Solid Surface">Solid Surface</option>
+                                                <option value="Granit Alam">Granit Alam</option>
+                                                <option value="Marmer">Marmer</option>
+                                                <option value="Mirror Clear">Mirror Clear</option>
+                                                <option value="Bronze Mirror">Bronze Mirror</option>
+                                                <option value="Keramik">Keramik</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="addKitchenItem('bs')">
+                                        <i class="fas fa-plus"></i> Tambah Backsplash
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- WARDROBE FORM -->
+                        <div id="wardrobe" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-door-open"></i> Wardrobe</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Panjang (cm)</label>
+                                    <input type="number" class="form-control" id="wr_panjang" min="100" step="0.1" placeholder="200">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tinggi (cm)</label>
+                                    <input type="number" class="form-control" id="wr_tinggi" min="150" step="0.1" placeholder="240">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Lebar (cm)</label>
+                                    <input type="number" class="form-control" id="wr_lebar" min="50" step="0.1" placeholder="60">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="wr_finishing">
+                                        <option value="Tacosheet">Tacosheet</option>
+                                        <option value="HPL Low">HPL Low</option>
+                                        <option value="HPL Mid">HPL Mid</option>
+                                        <option value="HPL High">HPL High</option>
+                                        <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addWardrobe()">
+                                <i class="fas fa-plus"></i> Tambah Wardrobe
+                            </button>
+                        </div>
+                        
+                        <!-- BED FORM -->
+                        <div id="bed" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-bed"></i> Bed Frame</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Panjang (cm)</label>
+                                    <input type="number" class="form-control" id="bed_panjang" min="180" step="0.1" placeholder="200">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Lebar (cm)</label>
+                                    <input type="number" class="form-control" id="bed_lebar" min="120" step="0.1" placeholder="160">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tinggi (cm)</label>
+                                    <input type="number" class="form-control" id="bed_tinggi" min="100" step="0.1" placeholder="120">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="bed_finishing">
+                                        <option value="HPL">HPL</option>
+                                        <option value="Duco">Duco</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addBed()">
+                                <i class="fas fa-plus"></i> Tambah Bed
+                            </button>
+                        </div>
+                        
+                        <!-- BACKDROP PANEL FORM -->
+                        <div id="backdrop" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-tv"></i> Backdrop Panel</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Panjang (cm)</label>
+                                    <input type="number" class="form-control" id="bd_panjang" min="50" step="0.1" placeholder="300">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tinggi (cm)</label>
+                                    <input type="number" class="form-control" id="bd_tinggi" min="50" step="0.1" placeholder="200">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Type</label>
+                                    <select class="form-select" id="bd_type" onchange="updateBackdropFinishing()">
+                                        <option value="PVC">PVC</option>
+                                        <option value="Flat">Flat Panel</option>
+                                        <option value="Tebal">Panel Tebal (3D)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="bd_finishing" disabled>
+                                        <option value="HPL">HPL</option>
+                                        <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addBackdrop()">
+                                <i class="fas fa-plus"></i> Tambah Backdrop
+                            </button>
+                        </div>
+                        
+                        <!-- CREDENZA FORM -->
+                        <div id="credenza" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-archive"></i> Credenza</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Panjang (cm)</label>
+                                    <input type="number" class="form-control" id="cr_panjang" min="100" step="0.1" placeholder="150">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tinggi (cm)</label>
+                                    <input type="number" class="form-control" id="cr_tinggi" min="50" step="0.1" placeholder="80">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Lebar (cm)</label>
+                                    <input type="number" class="form-control" id="cr_lebar" min="30" step="0.1" placeholder="40">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="cr_finishing">
+                                        <option value="Tacosheet">Tacosheet</option>
+                                        <option value="HPL Low">HPL Low</option>
+                                        <option value="HPL Mid">HPL Mid</option>
+                                        <option value="HPL High">HPL High</option>
+                                        <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addCredenza()">
+                                <i class="fas fa-plus"></i> Tambah Credenza
+                            </button>
+                        </div>
+                        
+                        <!-- MULTI CABINET FORM -->
+                        <div id="multi-cabinet" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-boxes"></i> Multi Cabinet</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Panjang (cm)</label>
+                                    <input type="number" class="form-control" id="mc_panjang" min="100" step="0.1" placeholder="120">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tinggi (cm)</label>
+                                    <input type="number" class="form-control" id="mc_tinggi" min="100" step="0.1" placeholder="180">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Lebar (cm)</label>
+                                    <input type="number" class="form-control" id="mc_lebar" min="30" step="0.1" placeholder="40">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="mc_finishing">
+                                        <option value="Tacosheet">Tacosheet</option>
+                                        <option value="HPL Low">HPL Low</option>
+                                        <option value="HPL Mid">HPL Mid</option>
+                                        <option value="HPL High">HPL High</option>
+                                        <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addMultiCabinet()">
+                                <i class="fas fa-plus"></i> Tambah Multi Cabinet
+                            </button>
+                        </div>
+                        
+                        <!-- CUSTOM FURNITURE FORM -->
+                        <div id="custom" class="category-form" style="display:none;">
+                            <h5><i class="fas fa-tools"></i> Custom Furniture</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Furniture</label>
+                                    <input type="text" class="form-control" id="cf_nama" placeholder="Nama custom furniture">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Metode Perhitungan</label>
+                                    <select class="form-select" id="cf_method" onchange="updateMethodInfo()">
+                                        <option value="Meter Lari">Meter Lari</option>
+                                        <option value="Meter Persegi">Meter Persegi</option>
+                                        <option value="Side Area X">Side Area X (Sisi Samping)</option>
+                                        <option value="Side Area Y">Side Area Y (Depan/Belakang)</option>
+                                        <option value="Side Area Z">Side Area Z (Atas/Bawah)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Value 1 (cm)</label>
+                                    <input type="number" class="form-control" id="cf_value1" min="1" step="0.1" placeholder="100">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Value 2 (cm)</label>
+                                    <input type="number" class="form-control" id="cf_value2" min="1" step="0.1" placeholder="100">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Value 3 (cm) - Optional</label>
+                                    <input type="number" class="form-control" id="cf_value3" min="0" step="0.1" placeholder="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Finishing</label>
+                                    <select class="form-select" id="cf_finishing">
+                                        <option value="Tacosheet">Tacosheet</option>
+                                        <option value="HPL Low">HPL Low</option>
+                                        <option value="HPL Mid">HPL Mid</option>
+                                        <option value="HPL High">HPL High</option>
+                                        <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="alert alert-info mt-3" id="methodInfo">
+                                <small><strong>Meter Lari:</strong> Panjang ÷ 100. Contoh: 300cm = 3.0 meter</small>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addCustom()">
+                                <i class="fas fa-plus"></i> Tambah Custom Furniture
+                            </button>
+                        </div>
+                        
+                        <!-- Customer Info -->
+                        <div class="card mt-4">
+                            <div class="card-header bg-warning">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-user"></i> Informasi Customer 
+                                    <small class="text-muted">(Wajib lengkap untuk WhatsApp Export)</small>
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info alert-sm mb-3">
+                                    <i class="fas fa-info-circle"></i> 
+                                    <strong>Penting:</strong> Lengkapi semua data customer untuk dapat menggunakan fitur Export + WhatsApp
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">
+                                            Nama Customer <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="customerName" placeholder="Nama Lengkap" required>
+                                        <div class="invalid-feedback">
+                                            Nama customer harus diisi untuk export WhatsApp
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">
+                                            Telepon <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-control" id="customerPhone" placeholder="08xx-xxxx-xxxx" required>
+                                        <div class="invalid-feedback">
+                                            Nomor telepon harus diisi dengan format yang benar
+                                        </div>
+                                        <small class="text-muted">Format: 08xx-xxxx-xxxx</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">
+                                            Alamat <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="customerAddress" placeholder="Alamat Customer" required>
+                                        <div class="invalid-feedback">
+                                            Alamat customer harus diisi untuk export WhatsApp
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Panel - Item List & Total -->
+            <div class="col-12 col-lg-6 order-2 order-lg-2">
+                <div class="card mt-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Daftar Item</h6>
+                        <div>
+                            <button class="btn btn-outline-danger btn-sm" onclick="clearAllItems()">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                            <button class="btn btn-success btn-sm" id="exportWhatsAppBtn" onclick="exportExcel()" title="Export Excel + Kirim WhatsApp (Perlu info customer lengkap)">
+                                <i class="fab fa-whatsapp"></i> Export + WA
+                                <span id="waValidationIcon" class="ms-1">⚠️</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="itemsList" style="max-height: 400px; overflow-y: auto;">
+                            <p class="text-muted">Belum ada item yang ditambahkan</p>
+                        </div>
+                        
+                        <!-- Total Section -->
+                        <div class="border-top mt-3 pt-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="text-primary"><strong>TOTAL HARGA:</strong></h5>
+                                    <p class="text-muted mb-0">Total Item: <span id="totalItems">0</span></p>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <h5 class="text-primary"><strong id="grandTotal">Rp 0</strong></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/mobile_app.js') }}"></script>
+</body>
+</html>

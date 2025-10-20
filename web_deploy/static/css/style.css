@@ -1,0 +1,604 @@
+/* Custom CSS for Furniture Price Generator Web */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.table th {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.table td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.toast {
+    min-width: 300px;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+}
+
+.bg-secondary {
+    background: linear-gradient(135deg, #6c757d, #495057) !important;
+}
+
+.shadow {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease;
+}
+
+/* Animation for adding items */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn {
+        font-size: 0.875rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+}
+
+/* Mobile-First Responsive Design */
+@media (max-width: 768px) {
+    /* Header mobile adjustments */
+    .header-compact {
+        padding: 5px 0;
+    }
+    
+    .header-compact .row {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .header-compact .col-auto,
+    .header-compact .col {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .header-compact h3 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+    
+    .logo-compact {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .company-info-compact {
+        font-size: 9px;
+        text-align: center;
+    }
+    
+    .company-info-compact strong {
+        font-size: 10px;
+    }
+    
+    /* Category selector mobile */
+    #kategoriSelect {
+        width: 100% !important;
+        max-width: 280px;
+        margin: 8px auto;
+        font-size: 14px;
+    }
+    
+    /* Card mobile layout */
+    .card {
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+        padding: 10px 15px;
+    }
+    
+    .card-header h6,
+    .card-header h5 {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+    
+    .card-body {
+        padding: 12px;
+    }
+    
+    /* Form inputs mobile */
+    .form-control, 
+    .form-select {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        min-height: 48px; /* Touch-friendly */
+    }
+    
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    /* Button mobile styling */
+    .btn {
+        width: 100%;
+        margin-bottom: 8px;
+        min-height: 44px; /* Touch target */
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .btn-sm {
+        min-height: 38px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .btn-group .btn {
+        width: auto;
+        margin-right: 5px;
+    }
+    
+    /* Grid mobile layout */
+    .row > [class*="col-md"] {
+        margin-bottom: 12px;
+    }
+    
+    /* Items list mobile */
+    #itemsList {
+        max-height: 300px;
+        overflow-y: auto;
+        font-size: 13px;
+        padding: 8px;
+    }
+    
+    .item-card {
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        background: #fff;
+    }
+    
+    /* Total section mobile */
+    .border-top {
+        padding-top: 15px;
+        margin-top: 15px;
+    }
+    
+    .border-top .row {
+        font-size: 13px;
+    }
+    
+    .border-top .col-8,
+    .border-top .col-4 {
+        margin-bottom: 3px;
+    }
+    
+    #grandTotal {
+        font-size: 1.3rem;
+    }
+    
+    /* Category forms mobile */
+    .category-form {
+        padding: 8px 0;
+    }
+    
+    /* Mobile navigation improvements */
+    .nav-tabs .nav-link {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Extra small screens (phones) */
+    .container-fluid {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
+    .header-compact h3 {
+        font-size: 1.1rem;
+    }
+    
+    .card-body {
+        padding: 10px;
+    }
+    
+    /* Stack all columns vertically */
+    .row > [class*="col-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Compact form styling */
+    .form-control, 
+    .form-select {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+    
+    .form-label {
+        font-size: 12px;
+    }
+    
+    /* Button adjustments */
+    .btn {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    
+    /* Small screen card headers */
+    .card-header {
+        padding: 8px 12px;
+    }
+    
+    .card-header h6 {
+        font-size: 13px;
+    }
+    
+    /* Mobile item list compact */
+    #itemsList {
+        max-height: 250px;
+        font-size: 12px;
+    }
+    
+    /* Mobile total compact */
+    .border-top .row {
+        font-size: 12px;
+    }
+    
+    #grandTotal {
+        font-size: 1.2rem;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .form-control, .form-select {
+        min-height: 44px; /* Apple recommended */
+    }
+    
+    .btn:hover {
+        transform: scale(1.02);
+        transition: transform 0.1s ease;
+    }
+    
+    .card {
+        transition: transform 0.2s ease;
+    }
+    
+    .card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .header-compact {
+        padding: 2px 0;
+    }
+    
+    .header-compact h3 {
+        font-size: 1rem;
+    }
+    
+    .logo-compact {
+        width: 35px;
+        height: 35px;
+    }
+    
+    #itemsList {
+        max-height: 180px;
+    }
+    
+    .card-body {
+        padding: 8px;
+    }
+}
+
+/* Loading states for mobile */
+.mobile-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Mobile modal adjustments */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .modal-content {
+        border-radius: 10px;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 12px 15px;
+    }
+}
+
+/* Dark mode mobile adjustments */
+@media (max-width: 768px) {
+    .dark-theme .card {
+        border: 1px solid #495057;
+        background-color: #343a40;
+    }
+    
+    .dark-theme .form-control,
+    .dark-theme .form-select {
+        background-color: #495057;
+        border-color: #6c757d;
+        color: #fff;
+    }
+    
+    .dark-theme .form-label {
+        color: #adb5bd;
+    }
+    
+    .dark-theme #itemsList {
+        background-color: #495057;
+        color: #fff;
+    }
+}
+
+/* Customer validation styling */
+.form-control.is-invalid,
+.form-control.border-danger {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+    animation: shake 0.5s ease-in-out;
+}
+
+.form-control.is-invalid:focus,
+.form-control.border-danger:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+    display: block;
+    font-size: 0.875em;
+    color: #dc3545;
+    margin-top: 0.25rem;
+}
+
+/* Required field indicator */
+.form-label .text-danger {
+    font-weight: bold;
+}
+
+/* Alert styling */
+.alert-sm {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+}
+
+/* WhatsApp button status styling */
+#exportWhatsAppBtn {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#waValidationIcon {
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-success #waValidationIcon {
+    animation: pulse-warning 2s infinite;
+}
+
+@keyframes pulse-warning {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+/* Customer info card styling */
+.bg-warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7) !important;
+}
+
+.card-header.bg-warning {
+    border-bottom: 1px solid #f39c12;
+}
+
+/* Mobile customer validation */
+@media (max-width: 768px) {
+    .alert-sm {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .invalid-feedback {
+        font-size: 0.8rem;
+    }
+    
+    #waValidationIcon {
+        font-size: 0.8em;
+    }
+}
+
+/* Custom loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Success animations */
+.success-animation {
+    animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Error shake animation */
+.error-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Money formatting */
+.money {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+/* Icon styling */
+.fa-2x {
+    font-size: 2em !important;
+}
+
+.fa-3x {
+    font-size: 3em !important;
+}
+
+/* Custom button variants */
+.btn-outline-success:hover {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Modal improvements */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.modal-header {
+    border-radius: 15px 15px 0 0;
+}
+
+/* Form enhancements */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Table enhancements */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Custom scrollbar */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

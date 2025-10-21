@@ -2,3 +2,4 @@ flask
 werkzeug
 openpyxl
 Pillow
+requests

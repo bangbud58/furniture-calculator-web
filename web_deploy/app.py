@@ -34,7 +34,14 @@ except ImportError:
             'Kombinasi': 'Kombinasi HPL + duco (Rp 4,7jt/m²)'
         }
 
-app = Flask(__name__)
+# Get the correct paths for templates and static files
+basedir = os.path.abspath(os.path.dirname(__file__))
+template_dir = os.path.join(basedir, 'templates')
+static_dir = os.path.join(basedir, 'static')
+
+app = Flask(__name__, 
+            template_folder=template_dir,
+            static_folder=static_dir)
 app.secret_key = os.environ.get('SECRET_KEY', 'furniture_price_generator_2025_prod')
 
 # Configuration for serverless

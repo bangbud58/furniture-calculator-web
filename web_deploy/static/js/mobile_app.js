@@ -1,4 +1,24 @@
+// Prevent error if called but not defined
+function setupMobileOptimizations() {}
 
+// Global variables
+let itemsData = [];
+let isMobile = window.innerWidth <= 768;
+
+// Helper functions
+function byId(id) {
+    const el = document.getElementById(id);
+    if (!el) {
+        console.error(`Element not found: #${id}`);
+        throw new Error(`Element not found: #${id}`);
+    }
+    return el;
+}
+
+function toNumber(value) {
+    const n = typeof value === 'number' ? value : parseFloat(String(value).replace(/,/g, '.'));
+    return Number.isFinite(n) ? n : NaN;
+}
 
 function getNum(id) {
     return toNumber(byId(id).value);
@@ -1398,27 +1418,6 @@ function updateMethodInfo() {
     methodInfo.innerHTML = `<small>${infoText}</small>`;
 }
 
-// Toast notification function
-function showMobileToast(message, isError = false) {
-    // Simple alert for now - can be enhanced with proper toast later
-    if (isError) {
-        alert('Error: ' + message);
-    } else {
-        alert(message);
-    }
-}
-// Mobile-optimized functions for the new template
-
-// Global variables
-let itemsData = [];
-let isMobile = window.innerWidth <= 768;
-
-// Helpers
-function byId(id) {
-    const el = document.getElementById(id);
-    if (!el) throw new Error(`Element not found: #${id}`);
-    return el;
-}
 
 function toNumber(value) {
     const n = typeof value === 'number' ? value : parseFloat(String(value).replace(/,/g, '.'));

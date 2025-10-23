@@ -14,11 +14,11 @@ from material_descriptions import MaterialDescriptions
 class FurniturePriceGenerator(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Furniture Price Generator by Mapan')
+        self.setWindowTitle('Furniture Price Calculator - PT. Enigma Prisma Delapan')
         self.setGeometry(100, 100, 1000, 750)  # Lebih besar untuk list area
         
         # Set window icon
-        icon_path = os.path.join(os.path.dirname(__file__), 'logo.png')
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.png')
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
         
@@ -43,26 +43,21 @@ class FurniturePriceGenerator(QWidget):
     def initUI(self):
         main_layout = QVBoxLayout()
         
-        # ========== HEADER SECTION ==========
+        # ========== HEADER SECTION (Web-like compact) ==========
         header_layout = QHBoxLayout()
-        header_layout.setSpacing(20)
+        header_layout.setSpacing(15)
         
         # Logo di kiri
         logo_label = QLabel()
-        
-        # Coba load logo dari file
-        import os
         logo_path = os.path.join(os.path.dirname(__file__), 'logo.png')
         
         if os.path.exists(logo_path):
             pixmap = QPixmap(logo_path)
-            # Scale logo lebih kecil untuk header yang compact
             scaled_pixmap = pixmap.scaled(80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             logo_label.setPixmap(scaled_pixmap)
             logo_label.setAlignment(Qt.AlignCenter)
             logo_label.setFixedSize(80, 80)
         else:
-            # Fallback ke text logo jika file tidak ada
             logo_label.setStyleSheet("""
                 QLabel {
                     background-color: #c0392b;
@@ -79,10 +74,13 @@ class FurniturePriceGenerator(QWidget):
         
         header_layout.addWidget(logo_label)
         
-        # Spacer
-        header_layout.addStretch()
+        # Title di tengah
+        self.title = QLabel('Furniture Price Generator')
+        self.title.setObjectName('TitleLabel')
+        self.title.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+        header_layout.addWidget(self.title, 1)
         
-        # Info perusahaan di kanan (compact version)
+        # Info perusahaan di kanan
         self.company_info = QLabel()
         self.company_info.setStyleSheet("""
             QLabel {
@@ -105,37 +103,27 @@ class FurniturePriceGenerator(QWidget):
         
         main_layout.addLayout(header_layout)
         
-        # Compact title and controls in one line
-        title_layout = QHBoxLayout()
-        
-        # ========== TITLE ==========
-        self.title = QLabel('Furniture Price Generator')
-        self.title.setObjectName('TitleLabel')
-        self.title.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        title_layout.addWidget(self.title)
-        
-        title_layout.addStretch()
-        
-        # Kategori dropdown inline
-        title_layout.addWidget(QLabel('Kategori:'))
+        # Control bar (kategori + theme toggle)
+        control_layout = QHBoxLayout()
+        control_layout.addWidget(QLabel('Kategori:'))
         self.kategori_combo = QComboBox()
         self.kategori_combo.addItems([
             'Kitchen Set', 'Wardrobe', 'Bed', 'Backdrop Panel',
             'Credenza', 'Multi Cabinet', 'Custom Furniture'
         ])
         self.kategori_combo.currentIndexChanged.connect(self.update_form)
-        self.kategori_combo.setMinimumWidth(150)
-        title_layout.addWidget(self.kategori_combo)
+        self.kategori_combo.setMinimumWidth(180)
+        control_layout.addWidget(self.kategori_combo)
         
-        # Dark Mode Toggle Button inline
         self.theme_toggle_btn = QPushButton('🌙')
         self.theme_toggle_btn.setObjectName('ThemeToggle')
         self.theme_toggle_btn.clicked.connect(self.toggle_dark_mode)
         self.theme_toggle_btn.setFixedWidth(40)
         self.theme_toggle_btn.setToolTip('Toggle Dark Mode')
-        title_layout.addWidget(self.theme_toggle_btn)
+        control_layout.addWidget(self.theme_toggle_btn)
+        control_layout.addStretch()
         
-        main_layout.addLayout(title_layout)
+        main_layout.addLayout(control_layout)
         
         # Separator line
         self.separator = QLabel()
@@ -144,6 +132,12 @@ class FurniturePriceGenerator(QWidget):
         main_layout.addWidget(self.separator)
         main_layout.addSpacing(5)
 
+        # ========== TWO-COLUMN LAYOUT (Web-like) ==========
+        two_column_layout = QHBoxLayout()
+        
+        # LEFT PANEL - Input Forms
+        left_panel = QVBoxLayout()
+        
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll_content = QWidget()
@@ -169,15 +163,34 @@ class FurniturePriceGenerator(QWidget):
         
         scroll_layout.addWidget(self.stacked_widget)
         scroll.setWidget(scroll_content)
-        main_layout.addWidget(scroll)
+        left_panel.addWidget(scroll)
 
         self.add_button = QPushButton('➕ Tambah Item')
         self.add_button.clicked.connect(self.add_item)
-        main_layout.addWidget(self.add_button)
-
+        left_panel.addWidget(self.add_button)
+        
+        # RIGHT PANEL - Items List & Total
+        right_panel = QVBoxLayout()
+        
+        # Items label
+        items_label = QLabel('📋 Daftar Item')
+        items_label.setStyleSheet("font-weight: bold; font-size: 14px; color: #2c3e50;")
+        right_panel.addWidget(items_label)
+        
         self.list_widget = QListWidget()
-        self.list_widget.setMinimumHeight(250)  # Set minimum height untuk list
-        main_layout.addWidget(self.list_widget)
+        self.list_widget.setMinimumHeight(300)
+        right_panel.addWidget(self.list_widget)
+        
+        # Item Management Buttons
+        item_btn_layout = QHBoxLayout()
+        self.delete_button = QPushButton('🗑️ Hapus Item')
+        self.delete_button.clicked.connect(self.delete_selected_item)
+        item_btn_layout.addWidget(self.delete_button)
+        
+        self.clear_button = QPushButton('🗑️ Hapus Semua')
+        self.clear_button.clicked.connect(self.clear_all_items)
+        item_btn_layout.addWidget(self.clear_button)
+        right_panel.addLayout(item_btn_layout)
         
         # Running Total Display
         self.total_display = QLabel()
@@ -193,54 +206,45 @@ class FurniturePriceGenerator(QWidget):
             }
         """)
         self.update_total_display()
-        main_layout.addWidget(self.total_display)
+        right_panel.addWidget(self.total_display)
+        
+        # Add left and right panels to two-column layout
+        two_column_layout.addLayout(left_panel, 1)  # 50% width
+        two_column_layout.addLayout(right_panel, 1)  # 50% width
+        
+        main_layout.addLayout(two_column_layout)
 
-        # Item Management Buttons
-        item_btn_layout = QHBoxLayout()
-        
-        self.delete_button = QPushButton('🗑️ Hapus Item Terpilih')
-        self.delete_button.clicked.connect(self.delete_selected_item)
-        item_btn_layout.addWidget(self.delete_button)
-        
-        self.clear_button = QPushButton('🗑️ Hapus Semua Item')
-        self.clear_button.clicked.connect(self.clear_all_items)
-        item_btn_layout.addWidget(self.clear_button)
-        
-        main_layout.addLayout(item_btn_layout)
-
-        # Main Action Buttons
-        button_layout = QHBoxLayout()
-        
+        # ========== BOTTOM ACTION BUTTONS ==========
+        # Customer & Settings row
+        action_row1 = QHBoxLayout()
         self.customer_button = QPushButton('👤 Info Customer')
         self.customer_button.clicked.connect(self.show_customer_dialog)
-        button_layout.addWidget(self.customer_button)
+        action_row1.addWidget(self.customer_button)
         
         self.discount_button = QPushButton('💰 Diskon & Pajak')
         self.discount_button.clicked.connect(self.show_discount_dialog)
-        button_layout.addWidget(self.discount_button)
+        action_row1.addWidget(self.discount_button)
         
         self.generate_button = QPushButton('📊 Hitung Total')
         self.generate_button.clicked.connect(self.generate_total)
-        button_layout.addWidget(self.generate_button)
+        action_row1.addWidget(self.generate_button)
+        main_layout.addLayout(action_row1)
         
-        main_layout.addLayout(button_layout)
-        
-        # File Operations
-        file_layout = QHBoxLayout()
-        
+        # File Operations row
+        action_row2 = QHBoxLayout()
         self.save_button = QPushButton('💾 Save Project')
         self.save_button.clicked.connect(self.save_project)
-        file_layout.addWidget(self.save_button)
+        action_row2.addWidget(self.save_button)
         
         self.load_button = QPushButton('📂 Load Project')
         self.load_button.clicked.connect(self.load_project)
-        file_layout.addWidget(self.load_button)
+        action_row2.addWidget(self.load_button)
         
         self.export_button = QPushButton('📄 Export ke Excel')
         self.export_button.clicked.connect(self.export_to_excel)
-        file_layout.addWidget(self.export_button)
+        action_row2.addWidget(self.export_button)
+        main_layout.addLayout(action_row2)
         
-        main_layout.addLayout(file_layout)
         self.setLayout(main_layout)
         self.update_form()
     
@@ -452,49 +456,69 @@ class FurniturePriceGenerator(QWidget):
         widget = QWidget()
         layout = QVBoxLayout()
         
-        # Ilustrasi gambar pengukuran
-        ilustrasi_label = QLabel()
-        ilustrasi_label.setAlignment(Qt.AlignCenter)
-        
-        import os
-        ilustrasi_path = os.path.join(os.path.dirname(__file__), 'illustration_bed.png')
-        
-        if os.path.exists(ilustrasi_path):
-            pixmap = QPixmap(ilustrasi_path)
-            scaled_pixmap = pixmap.scaled(500, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            ilustrasi_label.setPixmap(scaled_pixmap)
-        else:
-            ilustrasi_label.setText("📏 Gambar ilustrasi tidak ditemukan")
-        
-        layout.addWidget(ilustrasi_label)
-        
         frame_group = QGroupBox('Bed Frame')
         frame_layout = QFormLayout()
-        self.bed_panjang = QLineEdit()
-        self.bed_lebar = QLineEdit()
-        self.bed_tinggi = QLineEdit()
-        self.bed_finishing = InfoComboBox(['HPL', 'Duco'])
         
-        frame_layout.addRow('Panjang (cm):', self.bed_panjang)
-        frame_layout.addRow('Lebar (cm):', self.bed_lebar)
+        # Bed size preset dropdown
+        self.bed_size_preset = QComboBox()
+        self.bed_size_preset.addItems([
+            'Custom (Input Manual)',
+            'Super Size (210x210)',
+            'No. 1 (190x210)',
+            'No. 2 (170x210)',
+            'No. 3 (130x210)',
+            'No. 4 (100x210)'
+        ])
+        self.bed_size_preset.currentIndexChanged.connect(self.toggle_bed_custom_inputs)
+        frame_layout.addRow('Ukuran Bed:', self.bed_size_preset)
+        
+        # Custom input fields (initially hidden)
+        self.bed_panjang_custom = QLineEdit()
+        self.bed_panjang_custom.setPlaceholderText('200')
+        self.bed_lebar_custom = QLineEdit()
+        self.bed_lebar_custom.setPlaceholderText('160')
+        
+        self.bed_panjang_row = QLabel('Panjang Custom (cm):')
+        self.bed_lebar_row = QLabel('Lebar Custom (cm):')
+        
+        frame_layout.addRow(self.bed_panjang_row, self.bed_panjang_custom)
+        frame_layout.addRow(self.bed_lebar_row, self.bed_lebar_custom)
+        
+        # Hide custom inputs by default
+        self.bed_panjang_row.hide()
+        self.bed_panjang_custom.hide()
+        self.bed_lebar_row.hide()
+        self.bed_lebar_custom.hide()
+        
+        self.bed_tinggi = QLineEdit()
+        self.bed_tinggi.setPlaceholderText('120')
+        self.bed_finishing = InfoComboBox(['Tacosheet', 'HPL Low', 'HPL Mid', 'HPL High', 'Duco', 'Kombinasi'])
+        
         frame_layout.addRow('Tinggi (cm):', self.bed_tinggi)
         frame_layout.addRow('Finishing:', self.bed_finishing)
         frame_group.setLayout(frame_layout)
         layout.addWidget(frame_group)
         
-        hb_group = QGroupBox('Headboard')
-        hb_layout = QFormLayout()
-        self.hb_panjang = QLineEdit()
-        self.hb_tinggi = QLineEdit()
-        self.hb_material = InfoComboBox(['Synthetic Leather', 'Fabric'])
-        hb_layout.addRow('Panjang (cm):', self.hb_panjang)
-        hb_layout.addRow('Tinggi (cm):', self.hb_tinggi)
-        hb_layout.addRow('Material:', self.hb_material)
-        hb_group.setLayout(hb_layout)
-        layout.addWidget(hb_group)
+        # Info label
+        info_label = QLabel(
+            '<b>ℹ️ Backhead otomatis:</b><br>'
+            'Custom: sesuai ukuran | Super: 120x200 | No.1: 120x190<br>'
+            'No.2: 120x170 | No.3: 120x130 | No.4: 120x100'
+        )
+        info_label.setStyleSheet('background-color: #e3f2fd; padding: 8px; border-radius: 4px; font-size: 10px;')
+        info_label.setWordWrap(True)
+        layout.addWidget(info_label)
         
         widget.setLayout(layout)
         return widget
+    
+    def toggle_bed_custom_inputs(self):
+        """Show/hide custom input fields based on bed size selection"""
+        is_custom = self.bed_size_preset.currentIndex() == 0
+        self.bed_panjang_row.setVisible(is_custom)
+        self.bed_panjang_custom.setVisible(is_custom)
+        self.bed_lebar_row.setVisible(is_custom)
+        self.bed_lebar_custom.setVisible(is_custom)
 
     def create_backdrop_form(self):
         widget = QWidget()
@@ -983,65 +1007,100 @@ class FurniturePriceGenerator(QWidget):
         self.wr_tebal.clear()
 
     def add_bed_item(self):
-        # Bed Frame
-        if all([self.bed_panjang.text(), self.bed_lebar.text(), self.bed_tinggi.text()]):
-            panjang = float(self.bed_panjang.text())
-            lebar = float(self.bed_lebar.text())
-            tinggi = float(self.bed_tinggi.text())
-            finishing = self.bed_finishing.currentText()
+        if not self.bed_tinggi.text():
+            QMessageBox.warning(self, 'Error', 'Mohon isi tinggi bed')
+            return
             
-            area = (panjang / 100) * (lebar / 100)
-            # Bed menggunakan harga lama
-            bed_prices = {'HPL': 3000000, 'Duco': 5500000}
-            unit_price = bed_prices.get(finishing, 0)
-            total = area * unit_price
-            
-            self.list_widget.addItem(
-                f"Bed - Frame | {finishing} | {panjang}x{lebar}x{tinggi}cm | Rp{total:,.0f}"
-            )
-            
-            self.items_data.append({
-                'nama_item': 'Bed',
-                'sub_item': 'Frame',
-                'deskripsi': MaterialDescriptions.get_description(finishing),
-                'dimensi': f"{panjang} x {lebar} x {tinggi}",
-                'satuan_dimensi': 'cm',
-                'total_volume': area,
-                'harga_dasar': unit_price,
-                'jumlah': total
-            })
-            
-            self.bed_panjang.clear()
-            self.bed_lebar.clear()
-            self.bed_tinggi.clear()
+        tinggi = float(self.bed_tinggi.text())
+        finishing = self.bed_finishing.currentText()
+        preset_index = self.bed_size_preset.currentIndex()
         
-        # Headboard
-        if all([self.hb_panjang.text(), self.hb_tinggi.text()]):
-            panjang = float(self.hb_panjang.text())
-            tinggi = float(self.hb_tinggi.text())
-            material = self.hb_material.currentText()
-            
-            area = (panjang / 100) * (tinggi / 100)
-            unit_price = 1900000
-            total = area * unit_price
-            
-            self.list_widget.addItem(
-                f"Bed - Headboard | {material} | {panjang}x{tinggi}cm | Rp{total:,.0f}"
-            )
-            
-            self.items_data.append({
-                'nama_item': 'Bed',
-                'sub_item': 'Headboard',
-                'deskripsi': MaterialDescriptions.get_description(material),
-                'dimensi': f"{panjang} x {tinggi}",
-                'satuan_dimensi': 'cm',
-                'total_volume': area,
-                'harga_dasar': unit_price,
-                'jumlah': total
-            })
-            
-            self.hb_panjang.clear()
-            self.hb_tinggi.clear()
+        # Define bed sizes
+        bed_sizes = {
+            0: None,  # Custom
+            1: {'panjang': 210, 'lebar': 210, 'label': 'Super Size'},
+            2: {'panjang': 190, 'lebar': 210, 'label': 'No. 1'},
+            3: {'panjang': 170, 'lebar': 210, 'label': 'No. 2'},
+            4: {'panjang': 130, 'lebar': 210, 'label': 'No. 3'},
+            5: {'panjang': 100, 'lebar': 210, 'label': 'No. 4'}
+        }
+        
+        # Define backhead sizes
+        backhead_sizes = {
+            0: None,  # Custom
+            1: {'tinggi': 120, 'lebar': 200},
+            2: {'tinggi': 120, 'lebar': 190},
+            3: {'tinggi': 120, 'lebar': 170},
+            4: {'tinggi': 120, 'lebar': 130},
+            5: {'tinggi': 120, 'lebar': 100}
+        }
+        
+        # Get bed dimensions
+        if preset_index == 0:  # Custom
+            if not all([self.bed_panjang_custom.text(), self.bed_lebar_custom.text()]):
+                QMessageBox.warning(self, 'Error', 'Mohon isi panjang dan lebar custom bed')
+                return
+            panjang = float(self.bed_panjang_custom.text())
+            lebar = float(self.bed_lebar_custom.text())
+            bed_label = 'Custom'
+        else:
+            panjang = bed_sizes[preset_index]['panjang']
+            lebar = bed_sizes[preset_index]['lebar']
+            bed_label = bed_sizes[preset_index]['label']
+        
+        # Calculate bed frame
+        area = (panjang / 100) * (lebar / 100)
+        unit_price = self.get_price_per_m3('', finishing)
+        total = area * unit_price
+        
+        self.list_widget.addItem(
+            f"Bed Frame - {bed_label} | {finishing} | {panjang}x{lebar}x{tinggi}cm | Rp{total:,.0f}"
+        )
+        
+        self.items_data.append({
+            'nama_item': 'Bed',
+            'sub_item': f'Frame - {bed_label}',
+            'deskripsi': MaterialDescriptions.get_description(finishing),
+            'dimensi': f"{panjang} x {lebar} x {tinggi}",
+            'satuan_dimensi': 'cm',
+            'total_volume': area,
+            'harga_dasar': unit_price,
+            'jumlah': total
+        })
+        
+        # Auto-add backhead
+        if preset_index == 0:  # Custom
+            backhead_tinggi = 120
+            backhead_lebar = lebar
+        else:
+            backhead_tinggi = backhead_sizes[preset_index]['tinggi']
+            backhead_lebar = backhead_sizes[preset_index]['lebar']
+        
+        backhead_area = (backhead_tinggi / 100) * (backhead_lebar / 100)
+        backhead_total = backhead_area * unit_price
+        
+        self.list_widget.addItem(
+            f"Backhead - {bed_label} | {finishing} | {backhead_tinggi}x{backhead_lebar}cm | Rp{backhead_total:,.0f}"
+        )
+        
+        self.items_data.append({
+            'nama_item': 'Bed',
+            'sub_item': f'Backhead - {bed_label}',
+            'deskripsi': MaterialDescriptions.get_description(finishing),
+            'dimensi': f"{backhead_tinggi} x {backhead_lebar}",
+            'satuan_dimensi': 'cm',
+            'total_volume': backhead_area,
+            'harga_dasar': unit_price,
+            'jumlah': backhead_total
+        })
+        
+        # Clear inputs
+        self.bed_tinggi.clear()
+        if preset_index == 0:
+            self.bed_panjang_custom.clear()
+            self.bed_lebar_custom.clear()
+        self.bed_size_preset.setCurrentIndex(0)
+        self.toggle_bed_custom_inputs()
 
     def add_backdrop_item(self):
         if not all([self.bd_panjang.text(), self.bd_tinggi.text()]):

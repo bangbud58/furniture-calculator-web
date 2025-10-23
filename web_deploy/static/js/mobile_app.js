@@ -209,38 +209,118 @@ function addWardrobe() {
 }
 
 // Bed - sesuai desktop version
+// Toggle custom input for bed
+function toggleBedCustomInput() {
+    const bedSize = byId('bed_size').value;
+    const customInputs = document.getElementById('bed_custom_inputs');
+    if (bedSize === 'custom') {
+        customInputs.style.display = 'flex';
+    } else {
+        customInputs.style.display = 'none';
+    }
+}
+
 function addBed() {
     try {
-        const panjang = getNum('bed_panjang');
-        const lebar = getNum('bed_lebar');
+        const bedSizePreset = byId('bed_size').value;
         const tinggi = getNum('bed_tinggi');
         const finishing = byId('bed_finishing').value;
-        if (!isValidNumber(panjang, lebar, tinggi)) {
-            showMobileToast('Mohon isi semua field Bed dengan angka yang valid', true);
+        
+        if (!isValidNumber(tinggi)) {
+            showMobileToast('Mohon isi tinggi bed yang valid', true);
             return;
         }
+        
+        // Define bed sizes (panjang x lebar)
+        const bedSizes = {
+            custom: null,
+            super: { panjang: 210, lebar: 210, label: 'Super Size' },
+            no1: { panjang: 190, lebar: 210, label: 'No. 1' },
+            no2: { panjang: 170, lebar: 210, label: 'No. 2' },
+            no3: { panjang: 130, lebar: 210, label: 'No. 3' },
+            no4: { panjang: 100, lebar: 210, label: 'No. 4' }
+        };
+        
+        // Define backhead sizes (tinggi_backhead x lebar_backhead)
+        const backheadSizes = {
+            custom: null,
+            super: { tinggi: 120, lebar: 200 },
+            no1: { tinggi: 120, lebar: 190 },
+            no2: { tinggi: 120, lebar: 170 },
+            no3: { tinggi: 120, lebar: 130 },
+            no4: { tinggi: 120, lebar: 100 }
+        };
+        
+        let panjang, lebar, bedLabel;
+        
+        if (bedSizePreset === 'custom') {
+            panjang = getNum('bed_panjang_custom');
+            lebar = getNum('bed_lebar_custom');
+            if (!isValidNumber(panjang, lebar)) {
+                showMobileToast('Mohon isi panjang dan lebar custom bed yang valid', true);
+                return;
+            }
+            bedLabel = 'Custom';
+        } else {
+            panjang = bedSizes[bedSizePreset].panjang;
+            lebar = bedSizes[bedSizePreset].lebar;
+            bedLabel = bedSizes[bedSizePreset].label;
+        }
+        
+        // Calculate bed frame
         const area = (panjang / 100) * (lebar / 100);
-        const basePrices = { HPL: 3000000, Duco: 5500000 };
-        const basePrice = basePrices[finishing] || 3000000;
+        const basePrice = getFinishingPrice(finishing);
         const total = area * basePrice;
-        const item = {
-            nama_item: 'Bed Frame',
+        
+        const bedItem = {
+            nama_item: `Bed Frame - ${bedLabel}`,
             finishing,
             dimensi: `${panjang}x${lebar}x${tinggi}cm`,
             area,
             harga_satuan: basePrice,
             jumlah: total,
         };
-        itemsData.push(item);
+        itemsData.push(bedItem);
+        
+        // Auto-add backhead
+        let backheadTinggi, backheadLebar;
+        if (bedSizePreset === 'custom') {
+            backheadTinggi = 120;
+            backheadLebar = lebar;
+        } else {
+            backheadTinggi = backheadSizes[bedSizePreset].tinggi;
+            backheadLebar = backheadSizes[bedSizePreset].lebar;
+        }
+        
+        const backheadArea = (backheadTinggi / 100) * (backheadLebar / 100);
+        const backheadTotal = backheadArea * basePrice;
+        
+        const backheadItem = {
+            nama_item: `Backhead - ${bedLabel}`,
+            finishing,
+            dimensi: `${backheadTinggi}x${backheadLebar}cm`,
+            area: backheadArea,
+            harga_satuan: basePrice,
+            jumlah: backheadTotal,
+        };
+        itemsData.push(backheadItem);
+        
         updateItemsList();
         updateTotal();
-        byId('bed_panjang').value = '';
-        byId('bed_lebar').value = '';
-        byId('bed_tinggi').value = '';
-        showMobileToast('Bed Frame berhasil ditambahkan!');
+        
+        // Clear inputs
+        byId('bed_size').value = 'custom';
+        byId('bed_tinggi').value = '120';
+        if (bedSizePreset === 'custom') {
+            byId('bed_panjang_custom').value = '';
+            byId('bed_lebar_custom').value = '';
+        }
+        toggleBedCustomInput();
+        
+        showMobileToast(`Bed Frame ${bedLabel} + Backhead berhasil ditambahkan!`);
     } catch (error) {
         console.error('Error adding bed:', error);
-        showMobileToast('Terjadi kesalahan saat menambah bed', true);
+        showMobileToast('Terjadi kesalahan saat menambah bed: ' + (error.message || error), true);
     }
 }
 

@@ -238,29 +238,49 @@
                         <!-- BED FORM -->
                         <div id="bed" class="category-form" style="display:none;">
                             <h5><i class="fas fa-bed"></i> Bed Frame</h5>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label">Panjang (cm)</label>
-                                    <input type="number" class="form-control" id="bed_panjang" min="180" step="0.1" placeholder="200">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Lebar (cm)</label>
-                                    <input type="number" class="form-control" id="bed_lebar" min="120" step="0.1" placeholder="160">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Ukuran Bed</label>
+                                    <select class="form-select" id="bed_size" onchange="toggleBedCustomInput()">
+                                        <option value="custom">Custom (Input Manual)</option>
+                                        <option value="super">Super Size (210x210)</option>
+                                        <option value="no1">No. 1 (190x210)</option>
+                                        <option value="no2">No. 2 (170x210)</option>
+                                        <option value="no3">No. 3 (130x210)</option>
+                                        <option value="no4">No. 4 (100x210)</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Tinggi (cm)</label>
-                                    <input type="number" class="form-control" id="bed_tinggi" min="100" step="0.1" placeholder="120">
+                                    <input type="number" class="form-control" id="bed_tinggi" min="100" step="0.1" placeholder="120" value="120">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Finishing</label>
                                     <select class="form-select" id="bed_finishing">
-                                        <option value="HPL">HPL</option>
+                                        <option value="Tacosheet">Tacosheet</option>
+                                        <option value="HPL Low">HPL Low</option>
+                                        <option value="HPL Mid">HPL Mid</option>
+                                        <option value="HPL High">HPL High</option>
                                         <option value="Duco">Duco</option>
+                                        <option value="Kombinasi">Kombinasi</option>
                                     </select>
                                 </div>
                             </div>
-                            <button class="btn btn-primary mt-3" onclick="addBed()">
-                                <i class="fas fa-plus"></i> Tambah Bed
+                            <div class="row mb-3" id="bed_custom_inputs" style="display:none;">
+                                <div class="col-md-6">
+                                    <label class="form-label">Panjang Custom (cm)</label>
+                                    <input type="number" class="form-control" id="bed_panjang_custom" min="100" step="0.1" placeholder="200">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Lebar Custom (cm)</label>
+                                    <input type="number" class="form-control" id="bed_lebar_custom" min="100" step="0.1" placeholder="160">
+                                </div>
+                            </div>
+                            <div class="alert alert-info" style="font-size: 12px;">
+                                <i class="fas fa-info-circle"></i> <strong>Backhead otomatis:</strong> Custom (sesuai ukuran) | Super: 120x200 | No.1: 120x190 | No.2: 120x170 | No.3: 120x130 | No.4: 120x100
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addBed()">
+                                <i class="fas fa-plus"></i> Tambah Bed + Backhead
                             </button>
                         </div>
                         
